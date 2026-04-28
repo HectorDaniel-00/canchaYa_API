@@ -8,6 +8,8 @@
 # Ignore package-lock.json in any folder
 **/package-lock.json
 
+**/generated/prisma
+
 # Logs
 logs
 *.log

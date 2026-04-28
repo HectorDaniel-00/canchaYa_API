@@ -16,6 +16,8 @@ RUN npm install
 # Copy source code
 COPY . .
 
+RUN npx prisma generate
+
 # Expose development port
 EXPOSE 3000
 
@@ -31,6 +33,8 @@ RUN npm install
 
 # Copy source code
 COPY . .
+
+RUN npx prisma generate
 
 # Build the application
 RUN npm run build
@@ -48,9 +52,12 @@ RUN npm install --omit=dev
 
 # Copy built application from build stage
 COPY --from=build /usr/src/app/dist ./dist
+# Copy prisma files too
+COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /usr/src/app/node_modules/@prisma ./node_modules/@prisma
 
 # Expose production port
-EXPOSE 3000
+EXPOSE 3007
 
 # Start in production mode
 CMD ["node", "dist/main.js"]

@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Enum de el modelo User
+enum Role {
+  ADMIN
+  OWNER
+  PLAYER
+}
+
+// Enum de el modelo Court
+enum SurfaceType {
+  SYNTHETIC
+  NATURAL
+  FUTSAL
+}
+
+// Enum de el modelo Boonking
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+// Enum de el modelo Payment
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+// Enum de el modelo subscription
+enum PlanType {
+  BASIC
+  PRO
+  PREMIUM
+}
+
+// Enum de el modelo subscription
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+}
+
+
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String?
+  role      Role     @default(PLAYER)
+  createdAt DateTime @default(now())
+
+  // relaciones
+  courts        Court[]
+  bookings      Booking[]
+  reviews       Review[]
+  subscription  Subscription?
+  otifications Notification[] 
+}
+
+model Court {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  location    String
+  lat         Float
+  lng         Float
+  surface     SurfaceType
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  ownerId String
+  owner   User @relation(fields: [ownerId], references: [id])
+
+  // relaciones
+  timeSlots  TimeSlot[]
+  bookings   Booking[]
+  reviews    Review[]
+}
+
+model TimeSlot {
+  id        String   @id @default(uuid())
+  startTime DateTime
+  endTime   DateTime
+  isBooked  Boolean  @default(false)
+
+  courtId String
+  court   Court @relation(fields: [courtId], references: [id])
+
+  booking Booking?
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  date      DateTime
+  status    BookingStatus @default(PENDING)
+  total     Float
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  courtId String
+  court   Court @relation(fields: [courtId], references: [id])
+
+  timeSlotId String @unique
+  timeSlot   TimeSlot @relation(fields: [timeSlotId], references: [id])
+
+  payment Payment?
+}
+
+
+model Payment {
+  id        String   @id @default(uuid())
+  amount    Float
+  status    PaymentStatus
+  stripeId  String
+  createdAt DateTime @default(now())
+
+  bookingId String @unique
+  booking   Booking @relation(fields: [bookingId], references: [id])
+}
+
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  courtId String
+  court   Court @relation(fields: [courtId], references: [id])
+}
+
+
+model Subscription {
+  id        String   @id @default(uuid())
+  plan      PlanType
+  status    SubscriptionStatus
+  createdAt DateTime @default(now())
+
+  userId String @unique
+  user   User @relation(fields: [userId], references: [id])
+}
+
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+}
