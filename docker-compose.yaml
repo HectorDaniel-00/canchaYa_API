@@ -23,7 +23,7 @@ services:
       - canchaYa_network
 
   db:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     ports:
       - "$POSTGRES_PORT:5432"
     container_name: ${DB_CONTAINER_NAME}
