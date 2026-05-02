@@ -6,6 +6,7 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -60,8 +61,10 @@ model User {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
-  password  String?
+  password  String   
+  phone     String   @unique
   role      Role     @default(PLAYER)
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 
   // relaciones

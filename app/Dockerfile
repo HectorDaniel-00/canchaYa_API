@@ -1,5 +1,5 @@
 # BASE STAGE
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 
 WORKDIR /usr/src/app
 
@@ -19,7 +19,7 @@ COPY . .
 RUN npx prisma generate
 
 # Expose development port
-EXPOSE 3000
+EXPOSE 3007
 
 # Start in development mode
 CMD ["npm", "run", "start:dev"]
@@ -40,7 +40,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # PRODUCTION STAGE (for production)
-FROM node:20-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /usr/src/app
 
