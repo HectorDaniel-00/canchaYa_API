@@ -1,7 +1,8 @@
 # Compiled output (any dist, build folder, etc.)
 **/dist
 **/build
-
+**/.agents
+**/skills-**
 # Dependencies (any node_modules)
 **/node_modules
 
@@ -9,6 +10,7 @@
 **/package-lock.json
 
 **/generated/prisma
+**/prisma/migrations
 
 # Logs
 logs
