@@ -1,12 +1,16 @@
 # Compiled output (any dist, build folder, etc.)
 **/dist
 **/build
-
+**/.agents
+**/skills-**
 # Dependencies (any node_modules)
 **/node_modules
 
 # Ignore package-lock.json in any folder
 **/package-lock.json
+
+**/generated/prisma
+**/prisma/migrations
 
 # Logs
 logs

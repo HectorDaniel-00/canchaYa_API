@@ -1,5 +1,5 @@
 # BASE STAGE
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 
 WORKDIR /usr/src/app
 
@@ -16,8 +16,10 @@ RUN npm install
 # Copy source code
 COPY . .
 
+RUN npx prisma generate
+
 # Expose development port
-EXPOSE 3000
+EXPOSE 3007
 
 # Start in development mode
 CMD ["npm", "run", "start:dev"]
@@ -32,11 +34,13 @@ RUN npm install
 # Copy source code
 COPY . .
 
+RUN npx prisma generate
+
 # Build the application
 RUN npm run build
 
 # PRODUCTION STAGE (for production)
-FROM node:20-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /usr/src/app
 
@@ -48,9 +52,12 @@ RUN npm install --omit=dev
 
 # Copy built application from build stage
 COPY --from=build /usr/src/app/dist ./dist
+# Copy prisma files too
+COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /usr/src/app/node_modules/@prisma ./node_modules/@prisma
 
 # Expose production port
-EXPOSE 3000
+EXPOSE 3007
 
 # Start in production mode
 CMD ["node", "dist/main.js"]
