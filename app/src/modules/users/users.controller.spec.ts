@@ -1,8 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Reflector } from '@nestjs/core';
+
+jest.mock('src/config/prisma/prisma.service', () => ({
+  PrismaService: class MockPrismaService {},
+}));
 
 const mockUsersService = {
   create: jest.fn(),
@@ -21,13 +24,7 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [
-        { provide: UsersService, useValue: mockUsersService },
-        {
-          provide: RolesGuard,
-          useValue: { canActivate: () => true },
-        },
-      ],
+      providers: [{ provide: UsersService, useValue: mockUsersService }],
     })
       .overrideProvider(Reflector)
       .useValue({
