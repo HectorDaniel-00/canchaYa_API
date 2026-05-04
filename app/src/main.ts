@@ -6,6 +6,8 @@ import {
   PrismaExceptionFilter,
 } from './common/filters/index.js';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,13 +18,21 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       whitelist: true,
-      forbidUnknownValues: true,
+      forbidNonWhitelisted: true,
     }),
   );
 
   app.useGlobalInterceptors(new ResponseInterceptor(app.get(Reflector)));
   app.setGlobalPrefix('v1/api');
   app.useGlobalFilters(new HttpExceptionFilter(), new PrismaExceptionFilter());
+
+  app.use(cookieParser());
+  app.use(helmet());
+
+  app.enableCors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true,
+  });
 
   await app.listen(PORT);
   logger.log(`Servidor expuesto en: http://localhost:${PORT}/v1/api`);

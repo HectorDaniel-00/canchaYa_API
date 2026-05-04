@@ -65,6 +65,7 @@ model User {
   phone     String   @unique
   role      Role     @default(PLAYER)
   isActive  Boolean  @default(true)
+  tokenVersion String @default(uuid())
   createdAt DateTime @default(now())
 
   // relaciones
