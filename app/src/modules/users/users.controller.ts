@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -19,7 +18,6 @@ import {
 } from './dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from 'src/common/enums/role.enum';
-import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @Controller('users')
 export class UsersController {
@@ -65,14 +63,12 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   async remove(@Param('id') id: string): Promise<ResponseUserDto> {
     return this.usersService.remove(id);
   }
 
   @Post(':id/restore')
-  @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   async restore(@Param('id') id: string): Promise<ResponseUserDto> {
     return this.usersService.restore(id);

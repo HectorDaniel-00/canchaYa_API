@@ -1,10 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { PrismaService } from 'src/config/prisma/prisma.service';
 import { ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 jest.mock('bcrypt');
+
+jest.mock('src/config/prisma/prisma.service', () => ({
+  PrismaService: class MockPrismaService {
+    user = {
+      create: jest.fn(),
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+      findUniqueOrThrow: jest.fn(),
+      update: jest.fn(),
+      count: jest.fn(),
+    };
+    $transaction = jest.fn();
+  },
+}));
+
+import { PrismaService } from 'src/config/prisma/prisma.service';
 
 const mockPrismaService = {
   user: {
