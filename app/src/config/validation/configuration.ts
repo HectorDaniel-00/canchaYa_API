@@ -2,21 +2,21 @@ export default () => ({
   app: {
     port: parseInt(process.env.APP_PORT ?? '3000', 10),
     nodeEnv: process.env.NODE_ENV || 'development',
-    host: process.env.APP_HOST ?? '0.0.0.0',
   },
   database: {
-    host: process.env.POSTGRES_HOST!,
-    port: parseInt(process.env.POSTGRES_PORT ?? '5432', 10),
-    username: process.env.POSTGRES_USER!,
-    password: process.env.POSTGRES_PASSWORD!,
-    name: process.env.POSTGRES_DB!,
+    url: process.env.DATABASE_URL!,
+  },
+  swagger: {
+    title: process.env.SWAGGER_TITLE || 'API',
+    description: process.env.SWAGGER_DESCRIPTION || 'Sin description',
+    version: parseInt(process.env.SWAGGER_VERSION ?? '1.0', 10),
   },
   jwt: {
-    secret: process.env.JWT_SECRET!,
-    expiresIn: process.env.JWT_EXPIRES || '15m',
+    secret: process.env.JWT_PRIVATE_SECRE!,
+    expiresIn: process.env.EXPIRES_TOKEN || '15m',
     refreshToken: {
-      secret: process.env.REFRESH_SECRET!,
-      expiresIn: process.env.REFRESH_EXPIRES || '12h',
+      secret: process.env.JWT_REFRESH_PRIVATE_SECRET!,
+      expiresIn: process.env.EXPIRES_REFRESH_TOKEN || '12h',
     },
   },
 });

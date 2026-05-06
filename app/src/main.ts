@@ -15,7 +15,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const logger = new Logger(bootstrap.name);
   const PORT = configService.get<number>('app.port')!;
-  const HOST = configService.get<string>('app.host')!;
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -32,7 +31,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(helmet());
 
-  await app.listen(PORT, HOST);
-  logger.log(`Servidor expuesto en: http://${HOST}:${PORT}/v1/api`);
+  await app.listen(PORT);
+  logger.log(`Servidor expuesto en: http://localhost:${PORT}/v1/api`);
 }
 bootstrap();

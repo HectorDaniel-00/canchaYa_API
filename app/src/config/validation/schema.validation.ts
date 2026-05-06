@@ -8,20 +8,16 @@ export const schemaValidation = Joi.object({
     .default('development'),
 
   // Postgres
-  POSTGRES_HOST: Joi.string().required(),
-  POSTGRES_PORT: Joi.number().required(),
-  POSTGRES_USER: Joi.string().required(),
-  POSTGRES_PASSWORD: Joi.string().required(),
-  POSTGRES_DB: Joi.string().required(),
+  DATABASE_URL: Joi.string().required(),
 
   // Swagger
-  SWAGGER_TITLE: Joi.string().optional(),
+  SWAGGER_TITLE: Joi.string().optional().default('API'),
   SWAGGER_DESCRIPTION: Joi.string().optional().default('Sin description'),
-  SWAGGER_VERSION: Joi.number().optional(),
+  SWAGGER_VERSION: Joi.number().optional().default(1.0),
 
   // JWT
-  JWT_SECRET: Joi.string().required(),
-  JWT_EXPIRES: Joi.string().required().default('15m'),
-  REFRESH_SECRET: Joi.string().required(),
-  REFRESH_EXPIRES: Joi.string().required().default('12h'),
+  JWT_PRIVATE_SECRET: Joi.string().required(),
+  EXPIRES_TOKEN: Joi.string().required().default('15m'),
+  JWT_REFRESH_PRIVATE_SECRET: Joi.string().required(),
+  EXPIRES_REFRESH_TOKEN: Joi.string().required().default('12h'),
 });
