@@ -9,6 +9,7 @@ import { LoginDto, ChangePasswordDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../config/prisma/prisma.service';
 import { CreateUserDto } from '../users/dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly config: ConfigService,
   ) {}
 
   async register(data: CreateUserDto) {
@@ -122,7 +124,7 @@ export class AuthService {
       refreshTokenPayload = await this.jwtService.verifyAsync(
         currentRefreshToken,
         {
-          secret: process.env.JWT_REFRESH_SECRET,
+          secret: this.config.get<string>('JWT_REFRESH_PRIVATE_SECRET'),
         },
       );
     } catch {
@@ -200,8 +202,8 @@ export class AuthService {
           tokenVersion: user.tokenVersion,
         },
         {
-          secret: process.env.JWT_ACCESS_SECRET,
-          expiresIn: Number(process.env.JWT_ACCESS_EXPIRES!),
+          secret: this.config.get<string>('JWT_PRIVATE_SECRET'),
+          expiresIn: this.config.get<number>('EXPIRES_TOKEN'),
         },
       ),
       this.jwtService.signAsync(
@@ -212,8 +214,8 @@ export class AuthService {
           tokenVersion: user.tokenVersion,
         },
         {
-          secret: process.env.JWT_REFRESH_SECRET,
-          expiresIn: Number(process.env.JWT_REFRESH_EXPIRES!),
+          secret: this.config.get<string>('JWT_REFRESH_PRIVATE_SECRET'),
+          expiresIn: this.config.get<number>('EXPIRES_REFRESH_TOKEN'),
         },
       ),
     ]);
