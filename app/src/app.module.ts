@@ -6,9 +6,19 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthGuard } from './modules/auth/guards/auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
+import { CourtsModule } from './modules/courts/courts.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/validation/configuration';
+import { schemaValidation } from './config/validation/schema.validation.js';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+      load: [configuration],
+      validationSchema: schemaValidation,
+    }),
     ThrottlerModule.forRoot([
       {
         name: 'short',
@@ -19,6 +29,7 @@ import { RolesGuard } from './common/guards/roles.guard';
     PrismaModule,
     UsersModule,
     AuthModule,
+    CourtsModule,
   ],
   controllers: [],
   providers: [

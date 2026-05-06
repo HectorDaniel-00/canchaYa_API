@@ -52,6 +52,8 @@ RUN npm install --omit=dev
 
 # Copy built application from build stage
 COPY --from=build /usr/src/app/dist ./dist
+
+COPY --from=build /usr/src/app/src/generated ./src/generated
 # Copy prisma files too
 COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /usr/src/app/node_modules/@prisma ./node_modules/@prisma

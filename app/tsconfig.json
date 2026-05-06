@@ -3,6 +3,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,
+    "include": ["src", "prisma"],
     "esModuleInterop": true,
     "isolatedModules": true,
     "declaration": true,

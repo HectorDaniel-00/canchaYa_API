@@ -2,16 +2,16 @@ import { IsOptional, IsString, IsNumber, IsEnum } from 'class-validator';
 
 export class JwtPayloadDto {
   @IsString()
-  sub: string;
+  sub!: string;
 
   @IsString()
-  email: string;
+  email!: string;
 
   @IsEnum(['ADMIN', 'OWNER', 'PLAYER'])
-  role: string;
+  role!: string;
 
   @IsNumber()
-  tokenVersion: number;
+  tokenVersion!: number;
 
   @IsString()
   @IsOptional()

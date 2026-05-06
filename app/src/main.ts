@@ -8,11 +8,13 @@ import {
 import { Logger, ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
   const logger = new Logger(bootstrap.name);
-  const PORT = process.env.APP_PORT ?? 3007;
+  const PORT = configService.get<number>('app.port')!;
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -28,11 +30,6 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.use(helmet());
-
-  app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true,
-  });
 
   await app.listen(PORT);
   logger.log(`Servidor expuesto en: http://localhost:${PORT}/v1/api`);

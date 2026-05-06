@@ -16,8 +16,8 @@ import {
   FindUsersDto,
   ResponseUserDto,
 } from './dto';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Message, Roles } from '../../common/decorators';
+import { Role } from '../../common/enums/role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -37,6 +37,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @Message('Se encontro el usuario con exito')
   async findOne(@Param('id') id: string): Promise<ResponseUserDto> {
     return this.usersService.findOne(id);
   }
