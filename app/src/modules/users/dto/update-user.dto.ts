@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 import { IsOptional, IsString, IsEmail, IsEnum } from 'class-validator';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from '../../../common/enums/role.enum';
 
 /**
  * ?  Actualiza la información de un usuario existente, excluyendo el campo de la contraseña por seguridad.

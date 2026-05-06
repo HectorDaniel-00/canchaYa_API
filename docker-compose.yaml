@@ -7,7 +7,7 @@ services:
     container_name: ${APP_CONTAINER_NAME}
     working_dir: /usr/src/app
     ports:
-      - "${APP_PORT}:3000"
+      - "${APP_PORT}:3007"
     volumes:
       - ./app:/usr/src/app
       - ./.env:/usr/src/app/.env
@@ -16,6 +16,7 @@ services:
       - ./.env
     environment:
       - NODE_ENV=${NODE_ENV}
+      - APP_PORT=${APP_PORT}
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
     depends_on:
       - db

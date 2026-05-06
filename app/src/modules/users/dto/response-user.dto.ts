@@ -6,23 +6,23 @@ import { Exclude, Expose } from 'class-transformer';
  */
 export class ResponseUserDto {
   @Expose()
-  id: string;
+  id!: string;
 
   @Expose()
-  name: string;
+  name!: string;
 
   @Expose()
-  email: string;
+  email!: string;
 
   @Expose()
-  phone: string;
+  phone!: string;
 
   @Exclude()
-  password: string;
+  password?: string;
 
   @Expose()
-  role: string;
+  role!: string;
 
   @Expose()
-  isActive: boolean;
+  isActive!: boolean;
 }

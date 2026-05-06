@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString, Matches } from 'class-validator';
 export class ChangePasswordDto {
   @IsNotEmpty({ message: 'Current password is required' })
   @IsString({ message: 'The current password field only accepts text' })
-  currentPassword: string;
+  currentPassword!: string;
 
   @IsNotEmpty({ message: 'New password is required' })
   @IsString({ message: 'The new password field only accepts text' })
@@ -11,5 +11,5 @@ export class ChangePasswordDto {
     message:
       'La nueva contraseña debe tener al menos 8 caracteres, una mayúscula y un número',
   })
-  newPassword: string;
+  newPassword!: string;
 }

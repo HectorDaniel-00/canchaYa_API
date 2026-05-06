@@ -13,9 +13,9 @@ import { AuthService } from './auth.service';
 import { LoginDto, ChangePasswordDto } from './dto';
 import { Public } from './decorators';
 import { GetUser } from './decorators';
-import { CreateUserDto } from 'src/modules/users/dto';
 import { AuthGuard } from './guards/auth.guard';
 import type { Request, Response } from 'express';
+import { CreateUserDto } from '../users/dto';
 
 @Controller('auth')
 export class AuthController {
