@@ -6,9 +6,9 @@ import {
   UpdateUserPasswordDto,
   FindUsersDto,
 } from './dto';
-import { PrismaService } from 'src/config/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
+import { PrismaService } from '../../config/prisma/prisma.service';
 
 @Injectable()
 export class UsersService {

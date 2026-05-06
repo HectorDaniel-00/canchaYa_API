@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { PrismaService } from '../../config/prisma/prisma.service';
 
 jest.mock('bcrypt');
 
@@ -18,8 +19,6 @@ jest.mock('src/config/prisma/prisma.service', () => ({
     $transaction = jest.fn();
   },
 }));
-
-import { PrismaService } from 'src/config/prisma/prisma.service';
 
 const mockPrismaService = {
   user: {

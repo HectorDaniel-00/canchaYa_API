@@ -5,10 +5,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'src/config/prisma/prisma.service';
 import { LoginDto, ChangePasswordDto } from './dto';
-import { CreateUserDto } from 'src/modules/users/dto';
 import * as bcrypt from 'bcrypt';
+import { PrismaService } from '../../config/prisma/prisma.service';
+import { CreateUserDto } from '../users/dto';
 
 @Injectable()
 export class AuthService {

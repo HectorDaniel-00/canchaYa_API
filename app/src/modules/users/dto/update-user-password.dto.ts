@@ -6,5 +6,5 @@ export class UpdateUserPasswordDto {
   @Matches(/^(?=.*[A-Z])(?=.*\d).+$/, {
     message: 'La contraseña debe tener al menos una mayúscula y un número',
   })
-  password: string;
+  password!: string;
 }
